@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Computer System Builder</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+
+        h1 {
+            background-color: #885ddf;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        select, input[type="checkbox"] {
+            width: 100%;
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            background-color: #885ddf;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #555;
+        }
+
+        #invoice {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            margin: 20px auto;
+        }
+
+        #invoice h2 {
+            background-color: #885ddf;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        #invoice p {
+            margin: 10px 0;
+        }
+
+        span {
+            font-weight: bold;
+        }
+    </style>
+    <script>
+        // Define prices for various components
+        const processorPrices = {
+            'i5': 300,
+            'i7': 500,
+            'i9': 800,
+        };
+    
+        const memoryPrices = {
+            '8GB': 100,
+            '16GB': 200,
+            '32GB': 400,
+        };
+    
+        const hardDrivePrices = {
+            '256GB SSD': 150,
+            '512GB SSD': 250,
+            '1TB HDD': 100,
+        };
+    
+        const dvdDrivePrice = 50;
+
+        const soundCardPrice = 75;
+    
+        const graphicsCardPrices = {
+            'none': 0,
+            'gtx1650': 200,
+            'rtx3060': 400,
+        };
+    
+        const monitorPrices = {
+            'none': 0,
+            '1080p': 150,
+            '4k': 300,
+        };
+    
+        const keyboardPrices = {
+            'none': 0,
+            'mechanical': 100,
+            'wireless': 80,
+        };
+    
+        // Calculate the total price and tax
+        function calculateTotalPrice() {
+            const processor = document.getElementById('processor').value;
+            const memory = document.getElementById('memory').value;
+            const hardDrive = document.getElementById('hard-drive').value;
+            const dvdDrive = document.getElementById('dvd-drive').checked;
+            const soundCard = document.getElementById('sound-card').checked;
+            const graphicsCard = document.getElementById('graphics-card').value;
+            const monitor = document.getElementById('monitor').value;
+            const keyboard = document.getElementById('keyboard').value;
+    
+            const totalPrice =
+                processorPrices[processor] +
+                memoryPrices[memory] +
+                hardDrivePrices[hardDrive] +
+                (dvdDrive ? dvdDrivePrice : 0) +
+                (soundCard ? soundCardPrice : 0) +
+                graphicsCardPrices[graphicsCard] +
+                monitorPrices[monitor] +
+                keyboardPrices[keyboard];
+    
+            const salesTaxRate = 0.115;
+            const salesTax = totalPrice * salesTaxRate;
+    
+            const finalPrice = totalPrice + salesTax;
+    
+            document.getElementById('subtotal').textContent = `$${totalPrice.toFixed(2)}`;
+            document.getElementById('sales-tax').textContent = `$${salesTax.toFixed(2)}`;
+            document.getElementById('total-price').textContent = `$${finalPrice.toFixed(2)}`;
+        }
+    
+        // Display the invoice
+        function checkout() {
+            const processor = document.getElementById('processor').value;
+            const memory = document.getElementById('memory').value;
+            const hardDrive = document.getElementById('hard-drive').value;
+            const dvdDrive = document.getElementById('dvd-drive').checked;
+            const soundCard = document.getElementById('sound-card').checked;
+            const graphicsCard = document.getElementById('graphics-card').value;
+            const monitor = document.getElementById('monitor').value;
+            const keyboard = document.getElementById('keyboard').value;
+            const subtotal = document.getElementById('subtotal').textContent;
+            const salesTax = document.getElementById('sales-tax').textContent;
+            const totalPrice = document.getElementById('total-price').textContent;
+    
+            document.getElementById('invoice-processor').textContent = processor;
+            document.getElementById('invoice-memory').textContent = memory;
+            document.getElementById('invoice-hard-drive').textContent = hardDrive;
+            document.getElementById('invoice-dvd-drive').textContent = dvdDrive ? 'Yes' : 'No';
+            document.getElementById('invoice-sound-card').textContent = soundCard ? 'Yes' : 'No';
+            document.getElementById('invoice-graphics-card').textContent = graphicsCard;
+            document.getElementById('invoice-monitor').textContent = monitor;
+            document.getElementById('invoice-keyboard').textContent = keyboard;
+            document.getElementById('invoice-subtotal').textContent = subtotal;
+            document.getElementById('invoice-sales-tax').textContent = salesTax;
+            document.getElementById('invoice-total-price').textContent = totalPrice;
+    
+            document.getElementById('invoice').style.display = 'block';
+        }
+    </script>    
+</head>
+<body>
+    <h1>Build Your Dream Computer</h1>
+    <form>
+        <!-- Component selection dropdowns and checkboxes -->
+        <label for="processor">Processor:</label>
+        <select id="processor" onchange="calculateTotalPrice()">
+            <option value="i5">Intel Core i5</option>
+            <option value="i7">Intel Core i7</option>
+            <option value="i9">Intel Core i9</option>
+        </select><br>
+
+        <label for="memory">Memory:</label>
+        <select id="memory" onchange="calculateTotalPrice()">
+            <option value="8GB">8GB</option>
+            <option value="16GB">16GB</option>
+            <option value="32GB">32GB</option>
+        </select><br>
+
+        <label for="hard-drive">Hard Drive:</label>
+        <select id="hard-drive" onchange="calculateTotalPrice()">
+            <option value="256GB SSD">256GB SSD</option>
+            <option value="512GB SSD">512GB SSD</option>
+            <option value="1TB HDD">1TB HDD</option>
+        </select><br>
+
+        <label for="graphics-card">Graphics Card:</label>
+        <select id="graphics-card" onchange="calculateTotalPrice()">
+            <option value="none">None</option>
+            <option value="gtx1650">NVIDIA GTX 1650</option>
+            <option value="rtx3060">NVIDIA RTX 3060</option>
+        </select><br>
+
+        <label for="monitor">Monitor:</label>
+        <select id="monitor" onchange="calculateTotalPrice()">
+            <option value="none">None</option>
+            <option value="1080p">1080p Monitor</option>
+            <option value="4k">4K Monitor</option>
+        </select><br>
+
+        <label for="keyboard">Keyboard:</label>
+        <select id="keyboard" onchange="calculateTotalPrice()">
+            <option value="none">None</option>
+            <option value="mechanical">Mechanical Keyboard</option>
+            <option value="wireless">Wireless Keyboard</option>
+        </select><br>
+
+        <label for="dvd-drive">Add DVD-ROM Drive:</label>
+        <input type="checkbox" id="dvd-drive" onchange="calculateTotalPrice()"><br>
+
+        <label for="sound-card">Add Sound Card:</label>
+        <input type="checkbox" id="sound-card" onchange="calculateTotalPrice()"><br>
+
+        <label>Price Breakdown:</label><br>
+        <p>Subtotal: <span id="subtotal">$0.00</span></p>
+        <p>Sales Tax (11.5%): <span id="sales-tax">$0.00</span></p>
+        <p>Total Price: <span id="total-price">$0.00</span></p>
+
+        <button type="button" onclick="checkout()">Checkout</button>
+    </form>
+
+    <div id="invoice" style="display: none;">
+        <h2>Invoice</h2>
+        <p>Processor: <span id="invoice-processor"></span></p>
+        <p>Memory: <span id="invoice-memory"></span></p>
+        <p>Hard Drive: <span id="invoice-hard-drive"></span></p>
+        <p>Graphics Card: <span id="invoice-graphics-card"></span></p>
+        <p>Monitor: <span id="invoice-monitor"></span></p>
+        <p>Keyboard: <span id="invoice-keyboard"></span></p>
+        <p>DVD-ROM Drive: <span id="invoice-dvd-drive"></span></p>
+        <p>Sound Card: <span id="invoice-sound-card"></span></p>
+        <p>Subtotal: <span id="invoice-subtotal"></span></p>
+        <p>Sales Tax (11.5%): <span id="invoice-sales-tax"></span></p>
+        <p>Total Price: <span id="invoice-total-price"></span></p>
+    </div>
+</body>
+</html>
